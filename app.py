@@ -5,19 +5,29 @@ import requests
 # Initialize Flask app
 app = Flask(__name__)
 
-# Get environment variables
-# Make sure to set these in your deployment environment.
-# For local testing, you can set them in your terminal, e.g.,
-# export WEATHER_API_KEY='your_api_key'
-# export MY_NUMBER='your_phone_number_in_format_919876543210'
-WEATHER_API_KEY = os.environ.get('WEATHER_API_KEY')
-MY_NUMBER = os.environ.get('MY_NUMBER')
+# Get environment variables.
+# For local testing, you can set them in your terminal or a .env file.
+# For production, set them in your deployment service's dashboard.
+
+# ##############################################################################
+# # SECURITY WARNING: HARDCODED KEYS FOR LOCAL TESTING ONLY                    #
+# ##############################################################################
+# # The following lines use hardcoded keys as a fallback.                      #
+# # This is a temporary solution because of file system issues.                #
+# #                                                                            #
+# # ==> DO NOT COMMIT THIS TO A PUBLIC REPOSITORY. <==                         #
+# # ==> REGENERATE THESE KEYS IF THEY ARE EVER EXPOSED. <==                    #
+# ##############################################################################
+WEATHER_API_KEY = os.environ.get('WEATHER_API_KEY') or '635dd241dfbb1c40bdd2a8f83e9d1c0a'
+MY_NUMBER = os.environ.get('MY_NUMBER') or '919876543210' # Replace with your number
+# ##############################################################################
+
 WEATHER_API_URL = "https://api.openweathermap.org/data/2.5/"
 
-if not WEATHER_API_KEY:
-    print("Warning: WEATHER_API_KEY environment variable not set.")
-if not MY_NUMBER:
-    print("Warning: MY_NUMBER environment variable not set. This is required for the validate function.")
+if not os.environ.get('WEATHER_API_KEY'):
+    print("Warning: Using hardcoded WEATHER_API_KEY for local testing.")
+if not os.environ.get('MY_NUMBER'):
+    print("Warning: Using hardcoded MY_NUMBER for local testing. Remember to replace it with your actual number.")
 
 @app.route('/mcp')
 def mcp_root():
